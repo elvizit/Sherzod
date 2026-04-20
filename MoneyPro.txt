@@ -1,0 +1,8 @@
+Money Pro - Official Download Placeholder
+
+Owner: Tojiboev Shakhzod
+Status: Ready and updating
+
+This is a downloadable file for the business card button.
+If you want to distribute the real app installer, replace this file
+with the actual package and keep the same filename or update the link in index.html.

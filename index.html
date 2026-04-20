@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#120f35">
+    <title>Визитка — Тоджибоев Шахзод</title>
+    <style>
+        :root {
+            --bg-1: #090b20;
+            --bg-2: #1a1641;
+            --surface: rgba(255, 255, 255, 0.09);
+            --surface-border: rgba(255, 255, 255, 0.18);
+            --text-main: #f5f7ff;
+            --text-muted: #b9bfd9;
+            --accent: #7f66ff;
+            --accent-2: #33c7ff;
+            --shadow: 0 22px 60px rgba(6, 8, 25, 0.6);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            min-height: 100dvh;
+            font-family: "Inter", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            background:
+                radial-gradient(circle at 10% 10%, rgba(127, 102, 255, 0.34) 0%, transparent 45%),
+                radial-gradient(circle at 90% 80%, rgba(51, 199, 255, 0.25) 0%, transparent 42%),
+                linear-gradient(160deg, var(--bg-1) 0%, var(--bg-2) 100%);
+            padding: 24px;
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+
+        body::before,
+        body::after {
+            content: "";
+            position: fixed;
+            width: 280px;
+            height: 280px;
+            border-radius: 50%;
+            filter: blur(60px);
+            z-index: -1;
+            opacity: 0.55;
+            pointer-events: none;
+        }
+
+        body::before {
+            background: #6d4eff;
+            top: -80px;
+            left: -70px;
+            animation: floatA 13s ease-in-out infinite alternate;
+        }
+
+        body::after {
+            background: #2ad1ff;
+            right: -90px;
+            bottom: -70px;
+            animation: floatB 15s ease-in-out infinite alternate;
+        }
+
+        .card {
+            width: min(100%, 430px);
+            margin: auto 0;
+            border-radius: 28px;
+            overflow: hidden;
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            background: linear-gradient(160deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.03));
+            border: 1px solid var(--surface-border);
+            box-shadow: var(--shadow);
+            position: relative;
+            animation: cardIn 0.7s cubic-bezier(0.2, 0.8, 0.25, 1) both;
+        }
+
+        .card::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: 28px;
+            padding: 1px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.38), rgba(255, 255, 255, 0.08), rgba(96, 148, 255, 0.22));
+            -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+            mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+        }
+
+        .hero {
+            position: relative;
+            padding: 28px 24px 18px;
+            background:
+                linear-gradient(130deg, rgba(127, 102, 255, 0.45) 0%, rgba(51, 199, 255, 0.2) 55%, rgba(255, 255, 255, 0.02) 100%),
+                rgba(10, 10, 35, 0.4);
+        }
+
+        .hero::after {
+            content: "Dispatch";
+            position: absolute;
+            right: 20px;
+            top: 16px;
+            font-size: 42px;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            color: rgba(255, 255, 255, 0.08);
+            pointer-events: none;
+        }
+
+        .status-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            color: #d9dcf3;
+            letter-spacing: 0.02em;
+            padding: 6px 12px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.26);
+        }
+
+        .status-wrap {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .founder-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            padding: 6px 10px;
+            border-radius: 999px;
+            color: #fff6dc;
+            border: 1px solid rgba(255, 222, 147, 0.35);
+            background: linear-gradient(135deg, rgba(255, 217, 128, 0.26), rgba(255, 168, 77, 0.17));
+            box-shadow: 0 6px 14px rgba(255, 187, 0, 0.15);
+        }
+
+        .status-pill::before {
+            content: "";
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #34d399;
+            box-shadow: 0 0 0 6px rgba(52, 211, 153, 0.16);
+        }
+
+        .profile {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-top: 18px;
+        }
+
+        .avatar {
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            border: 2px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 10px 24px rgba(14, 17, 41, 0.55);
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .name {
+            margin: 0;
+            font-size: clamp(1.45rem, 2.1vw, 1.7rem);
+            line-height: 1.15;
+            font-weight: 750;
+            letter-spacing: -0.02em;
+        }
+
+        .role {
+            margin: 6px 0 0;
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        .ceo-title {
+            margin: 8px 0 0;
+            font-size: 13px;
+            color: #ffe8b0;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            font-weight: 650;
+        }
+
+        .meta-row {
+            margin-top: 12px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .meta-chip {
+            font-size: 12px;
+            color: #e5e9fb;
+            background: rgba(255, 255, 255, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 999px;
+            padding: 6px 10px;
+        }
+
+        .content {
+            padding: 18px 24px 24px;
+        }
+
+        .highlight-panel {
+            margin-bottom: 14px;
+            border-radius: 14px;
+            padding: 12px 13px;
+            background: linear-gradient(125deg, rgba(255, 214, 130, 0.2), rgba(255, 151, 94, 0.12), rgba(255, 255, 255, 0.06));
+            border: 1px solid rgba(255, 227, 171, 0.34);
+            color: #fff1cc;
+            font-size: 13px;
+            line-height: 1.45;
+        }
+
+        .highlight-panel strong {
+            color: #ffffff;
+        }
+
+        .projects {
+            margin: 14px 0 16px;
+            display: grid;
+            gap: 10px;
+        }
+
+        .project-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            border-radius: 12px;
+            padding: 11px 12px;
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        .project-item.clickable {
+            text-decoration: none;
+            color: inherit;
+            transition: transform 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
+        }
+
+        .project-item.clickable:hover {
+            transform: translateY(-2px);
+            border-color: rgba(255, 255, 255, 0.35);
+            background: rgba(255, 255, 255, 0.12);
+        }
+
+        .project-name {
+            font-size: 14px;
+            color: #eff3ff;
+            font-weight: 600;
+        }
+
+        .project-status {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            border-radius: 999px;
+            padding: 6px 10px;
+            border: 1px solid transparent;
+            white-space: nowrap;
+        }
+
+        .status-live {
+            color: #cfffe4;
+            background: rgba(37, 211, 102, 0.16);
+            border-color: rgba(37, 211, 102, 0.38);
+        }
+
+        .status-dev {
+            color: #ffecc7;
+            background: rgba(255, 193, 80, 0.14);
+            border-color: rgba(255, 193, 80, 0.34);
+        }
+
+        .section-title {
+            margin: 4px 0 10px;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: #c2caeb;
+            opacity: 0.9;
+        }
+
+        .save-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            margin: 2px 0 16px;
+            text-decoration: none;
+            color: #ffffff;
+            border-radius: 14px;
+            min-height: 50px;
+            padding: 14px 16px;
+            font-weight: 650;
+            letter-spacing: 0.01em;
+            background: linear-gradient(135deg, var(--accent) 0%, #5d87ff 48%, var(--accent-2) 100%);
+            box-shadow: 0 12px 28px rgba(86, 104, 255, 0.4);
+            transition: transform 0.25s ease, box-shadow 0.25s ease, filter 0.25s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .save-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 14px 30px rgba(105, 123, 255, 0.55);
+            filter: saturate(1.15);
+        }
+
+        .save-btn::before {
+            content: "";
+            position: absolute;
+            top: -120%;
+            left: -45%;
+            width: 40%;
+            height: 320%;
+            transform: rotate(25deg);
+            background: rgba(255, 255, 255, 0.45);
+            filter: blur(8px);
+            transition: left 0.55s ease;
+        }
+
+        .save-btn:hover::before {
+            left: 125%;
+        }
+
+        .call-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            min-height: 50px;
+            padding: 14px 16px;
+            margin: 0 0 14px;
+            text-decoration: none;
+            color: #ffffff;
+            border-radius: 14px;
+            font-weight: 650;
+            letter-spacing: 0.01em;
+            border: 1px solid rgba(255, 255, 255, 0.24);
+            background: rgba(255, 255, 255, 0.09);
+            transition: transform 0.22s ease, background-color 0.22s ease, border-color 0.22s ease;
+        }
+
+        .call-btn:hover {
+            transform: translateY(-2px);
+            background: rgba(37, 211, 102, 0.2);
+            border-color: rgba(37, 211, 102, 0.42);
+        }
+
+        .contact-hint {
+            margin: -8px 0 14px;
+            font-size: 12px;
+            color: #c6cfef;
+            line-height: 1.35;
+            min-height: 16px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+
+        .grid-item {
+            text-decoration: none;
+            color: #eaf0ff;
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            background: rgba(255, 255, 255, 0.06);
+            min-height: 76px;
+            padding: 14px 12px;
+            transition: transform 0.22s ease, border-color 0.22s ease, background-color 0.22s ease;
+        }
+
+        .grid-item:hover {
+            transform: translateY(-2px);
+            background: rgba(255, 255, 255, 0.11);
+            border-color: rgba(255, 255, 255, 0.32);
+        }
+
+        .grid-label {
+            display: block;
+            font-size: 20px;
+            margin-bottom: 6px;
+        }
+
+        .grid-text {
+            font-size: 13px;
+            color: #d7ddf7;
+        }
+
+        .links {
+            display: grid;
+            gap: 10px;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            text-decoration: none;
+            color: #f2f5ff;
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            background: rgba(255, 255, 255, 0.05);
+            min-height: 58px;
+            padding: 12px 14px;
+            font-weight: 520;
+            transition: transform 0.22s ease, background-color 0.22s ease, border-color 0.22s ease;
+        }
+
+        .social-link:hover {
+            transform: translateY(-2px);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .social-left {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .social-icon {
+            width: 30px;
+            height: 30px;
+            display: inline-grid;
+            place-items: center;
+            border-radius: 9px;
+            background: rgba(255, 255, 255, 0.12);
+            flex-shrink: 0;
+        }
+
+        .social-text {
+            display: inline-flex;
+            flex-direction: column;
+            line-height: 1.2;
+            gap: 3px;
+        }
+
+        .social-title {
+            font-size: 14px;
+        }
+
+        .social-subtitle {
+            font-size: 11px;
+            color: #b8c2ea;
+        }
+
+        .tg:hover {
+            background: rgba(0, 136, 204, 0.22);
+        }
+
+        .channel:hover {
+            background: rgba(35, 166, 255, 0.2);
+        }
+
+        .insta:hover {
+            background: linear-gradient(120deg, rgba(245, 133, 41, 0.28), rgba(221, 42, 123, 0.26), rgba(129, 52, 175, 0.25));
+        }
+
+        .wa:hover {
+            background: rgba(37, 211, 102, 0.2);
+        }
+
+        .arrow {
+            color: #d6ddff;
+            font-size: 16px;
+            transition: transform 0.2s ease;
+        }
+
+        .social-link:hover .arrow {
+            transform: translateX(3px);
+        }
+
+        a:focus-visible {
+            outline: 2px solid #ffffff;
+            outline-offset: 2px;
+        }
+
+        @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+            .card {
+                background: #1b1c3f;
+            }
+        }
+
+        @media (hover: none) and (pointer: coarse) {
+            .save-btn:hover,
+            .grid-item:hover,
+            .social-link:hover,
+            .social-link:hover .arrow {
+                transform: none;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+        }
+
+        @media (max-width: 720px) {
+            body {
+                padding: 16px;
+            }
+        }
+
+        @keyframes cardIn {
+            from {
+                opacity: 0;
+                transform: translateY(22px) scale(0.97);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        @keyframes floatA {
+            from {
+                transform: translate(0, 0);
+            }
+            to {
+                transform: translate(55px, 35px);
+            }
+        }
+
+        @keyframes floatB {
+            from {
+                transform: translate(0, 0);
+            }
+            to {
+                transform: translate(-50px, -30px);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .content,
+            .hero {
+                padding-left: 18px;
+                padding-right: 18px;
+            }
+
+            .status-wrap {
+                flex-wrap: wrap;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .meta-row {
+                gap: 6px;
+            }
+
+            .meta-chip {
+                font-size: 11px;
+            }
+
+            .project-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .contact-hint {
+                font-size: 11px;
+            }
+        }
+
+        @media (max-height: 620px) and (orientation: landscape) {
+            body {
+                padding: 10px;
+            }
+
+            .hero {
+                padding-top: 16px;
+                padding-bottom: 12px;
+            }
+
+            .content {
+                padding-top: 12px;
+                padding-bottom: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <div class="hero">
+        <div class="status-wrap">
+            <span class="status-pill">Онлайн • Быстрый ответ</span>
+
+        </div>
+        <div class="profile">
+            <div class="avatar">
+                <!-- <img src="№" alt=""> -->
+            </div>
+            <div>
+                <h1 class="name">Тоджибоев Шерзод</h1>
+                <p class="role">Консультации и связь в 1 клик</p>
+                <p class="ceo-title">Dispatcher - Team Project | Logistics</p>
+                <div class="meta-row">
+                    <span class="meta-chip">📍 Узбекистан</span>
+                    <span class="meta-chip">⚡ Ответ в течение дня</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="content">
+        <a href="./Sherzod.vcf" class="save-btn" id="saveContactBtn">💾 Сохранить в контакты</a>
+        <a href="tel:+998930387438" class="call-btn">📞 Позвонить сейчас</a>
+        <p class="contact-hint" id="contactHint"></p>
+        <div class="highlight-panel">
+            <strong>Личный контакт Диспетчера:</strong> пиши или звони напрямую, отвечаю лично.
+        </div>
+        <p class="section-title">Связаться со мной</p>
+
+        <div class="links">
+            <a href="https://t.me/sherik_ti" class="social-link tg">
+                <span class="social-left">
+                    <span class="social-icon">💬</span>
+                    <span class="social-text">
+                        <span class="social-title">Напиши мне в Telegram</span>
+                        <span class="social-subtitle">@sherik_ti</span>
+                    </span>
+                </span>
+                <span class="arrow">→</span>
+            </a>
+            <a href="https://wa.me/998930387438" class="social-link wa">
+                <span class="social-left">
+                    <span class="social-icon">📞</span>
+                    <span class="social-text">
+                        <span class="social-title">WhatsApp</span>
+                        <span class="social-subtitle">+998 93 038 74 38</span>
+                    </span>
+                </span>
+                <span class="arrow">→</span>
+            </a>
+            <a href="mailto:-" class="social-link">
+                <span class="social-left">
+                    <span class="social-icon">✉️</span>
+                    <span class="social-text">
+                        <span class="social-title">Email</span>
+                        <span class="social-subtitle">-</span>
+                    </span>
+                </span>
+                <span class="arrow">→</span>
+            </a>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    (function () {
+        var saveBtn = document.getElementById("saveContactBtn");
+        var contactHint = document.getElementById("contactHint");
+        if (!saveBtn || !contactHint) return;
+
+        var ua = navigator.userAgent || "";
+        var isAndroid = /Android/i.test(ua);
+        var isIOS = /iPhone|iPad|iPod/i.test(ua) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+
+        if (isAndroid) {
+            saveBtn.textContent = "⬇️ Скачать контакт (.vcf)";
+            contactHint.textContent = "Android: Нажми кнопку -> открой файл -> выбери Контакты -> Импорт.";
+        } else if (isIOS) {
+            saveBtn.textContent = "💾 Сохранить в контакты";
+            contactHint.textContent = "iPhone: после нажатия откроется карточка контакта, выбери «Создать новый контакт».";
+        } else {
+            contactHint.textContent = "Если контакт не открылся сразу, скачай .vcf и открой его через приложение Контакты.";
+        }
+    })();
+</script>
+
+</body>
+</html>
